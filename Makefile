@@ -5,11 +5,18 @@
 #
 
 include $(TOPDIR)/rules.mk
-
-LUCI_TITLE:=Fwknopd config - web config for the firewall knock daemon
-LUCI_DEPENDS:=+luci-compat +fwknopd +qrencode
+PKG_NAME:=ME909s
+PKG_VERSION:=1.0.0
+LUCI_TITLE:=ME909s - web config for the ME909s modem
+LUCI_DEPENDS:=+libpthread
 PKG_LICENSE:=GPLv2
-PKG_MAINTAINER:=Jonathan Bennett <JBennett@incomsystems.biz>
+LUCI_PKGARCH:=all
+PKG_MAINTAINER:=mirway
 include ../../luci.mk
 
+
+define Host/Install	#软件包的安装方法，主要就是将一系列编译好的文件、启动脚本、UCI配置文件等拷贝到指定位置
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/sendat $(1)/usr/bin
+endef
 # call BuildPackage - OpenWrt buildroot signature
